@@ -1,0 +1,112 @@
+CREATE DATABASE tip_research_compendium;
+USE tip_research_compendium;
+
+CREATE TABLE Stu_Acct(
+Stu_ID int NOT NULL PRIMARY KEY,
+Stu_LName varchar(100),
+Stu_FName varchar(100),
+Stu_Mail varchar(100)
+);
+desc Stu_Acct;
+
+CREATE TABLE Prof_Acct(
+Prof_ID int NOT NULL PRIMARY KEY,
+Prof_LName varchar(100),
+Prof_FName varchar(100),
+Prof_Mail varchar(100),
+Prof_Dept varchar(100)
+);
+desc Prof_Acct;
+
+CREATE TABLE Res_Docs(
+Res_DOI varchar(100) NOT NULL PRIMARY KEY,
+Res_Title varchar(100),
+Res_Author varchar(100),
+Res_PDate date,
+Res_Dept varchar(100)
+);
+desc Res_Docs;
+
+CREATE TABLE System(
+Web_URL varchar(100) NOT NULL PRIMARY KEY,
+Stu_ID int NOT NULL,
+Prof_ID int NOT NULL,
+Res_DOI varchar(100) NOT NULL,
+Web_Title varchar(100),
+INDEX fk_System_Stu_Acct(Stu_ID asc),
+INDEX fk_System_Prof_Acct(Prof_ID asc),
+INDEX fk_System_Res_Docs(Res_DOI asc),
+CONSTRAINT fk_System_Stu_Acct
+FOREIGN KEY (Stu_ID)
+REFERENCES Stu_Acct(Stu_ID),
+CONSTRAINT fk_System_Prof_Acct
+FOREIGN KEY (Prof_ID)
+REFERENCES Prof_Acct(Prof_ID),
+CONSTRAINT fk_System_Res_Docs
+FOREIGN KEY (Res_DOI)
+REFERENCES Res_Docs(Res_DOI),
+);
+desc System;
+
+INSERT INTO Stu_Acct
+VALUES(2111920, "Tanaya", "Christian Kyle", "mcktanaya1@tip.edu.ph"),
+(2111683, "Penequito", "Owen James", "mojpenequito1@tip.edu.ph"),
+(2111720, "Eusebio", "Timothy Jher", "mtjeusebio1@tip.edu.ph"),
+(2111864, "Costales", "Bernardine Diza", "mbdcostales1@tip.edu.ph"),
+(2111996, "De Ramos", "Mark Jherome", "mmjderamos1@tip.edu.ph");
+SELECT * FROM Stu_Acct;
+
+INSERT INTO Prof_Acct
+VALUES(10001, "Marasigan", "Rufo", "mrufo@gmail.com", "CPE"),
+(10002, "Facunla", "Rowel", "frowel@gmail.com", "CPE"),
+(10003, "Mindoro", "Jennalyn", "mjennalyn@gmail.com", "CPE"),
+(10004, "Lobos", "Nikko", "lnikko@gmail.com", "CPE"),
+(10005, "Alonzo", "Reymark", "areymark@gmail.com", "CPE");
+SELECT * FROM Prof_acct;
+
+INSERT INTO Stu_Acct
+VALUES("10.1111/dome.12082", "Creating API", "Rufo Marasigan", "2022-12-16", "CPE"),
+("10.1111/josi.12122", "Digital Divide", "Estrada Jheanel", "2022-10-24", "CPE"),
+("10.1111/dome.15932", "Geological Map of Peninsula", "Kraus, Stefan", "2008-04-03", "CPE"),
+("10.1111/dome.12089", "Impacts of Digital Information", "Alex Magundayao", "2008-10-08", "CPE"),
+("10.1080/00207594.2012.744839", "Globalization and Human Development", "Held, Gilbert", "2012-01-25", "CPE");
+SELECT * FROM Res_Docs;
+
+INSERT INTO System
+VALUES("https://Globalization-and-Human-Development.edu/web_research", 2111683, 10001, "10.1080/00207594.2012.744839", 
+"https://tip.research-compendium.edu/Globalization-and-Human-Development"),
+("https://Creating-API.edu/web_research", 2111720, 10002, "10.1111/dome.12082", 
+"https://tip.research-compendium.edu/Creating-API"),
+("https://Impacts-of-Digital-Information.edu/web_research", 2111864, 10003, "10.1111/dome.12089", 
+"https://tip.research-compendium.edu/Impacts-of-Digital-Information"),
+("https://Geological-Map-of-Peninsula.edu/web_research", 2111920, 10004, "10.1111/dome.15932", 
+"https://tip.research-compendium.edu/Geological-Map-of-Peninsula"),
+("https://Digital-Divide.edu/web_research", 2111996, 10005, "10.1111/josi.12122", 
+"https://tip.research-compendium.edu/Digital-Divide"),
+SELECT * FROM System;
+
+UPDATE Prof_Acct
+SET Prof_FName = "Jennalyn"
+WHERE Prof_ID = 10003;
+
+UPDATE Prof_Acct
+SET Prof_Mail = "mjennalyn@gmail.com"
+WHERE Prof_FName = "Jennalyn";
+
+SELECT * FROM Prof_Acct;
+
+DELETE FROM System WHERE Prof_ID = 10003;
+
+SELECT * FROM System;
+
+CREATE TABLE stu_acct_backup AS SELECT * FROM stu_acct;
+SELECT * FROM stu_acct_backup;
+
+CREATE TABLE prof_acct_backup AS SELECT * FROM prof_acct;
+SELECT * FROM prof_acct_backup;
+
+CREATE TABLE res_docs_backup AS SELECT * FROM res_docs;
+SELECT * FROM res_docs_backup;
+
+CREATE TABLE system_backup AS SELECT * FROM system;
+SELECT * FROM system_backup; 
